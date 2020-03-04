@@ -5,6 +5,7 @@ Use: Once per device
 """
 import os
 import json
+import hashlib
 from argparse import ArgumentParser
 
 
@@ -86,4 +87,17 @@ if __name__ == '__main__':
     print("generating device specific secrets")
     user_secrets = json.load(open(os.path.abspath(user_secrets)))
     region_secrets = json.load(open(os.path.abspath(region_secrets)))
+    print(type(user_secrets))
+    print(user_secrets)
+    print(usernames)
+    print(type(usernames))
+    print(type(region_secrets))
+    print(region_secrets)
+    print(region_names)
+    print(type(region_names))
+    #hahs the supplied usernames so they can match with the ones stored in secrets
+    for i in range(len(usernames)):
+        usernames[i] = hashlib.sha256(usernames[i].encode('utf-8')).hexdigest()
+    for i in range(len(region_names)):
+        region_names[i] = hashlib.sha256(region_names[i].encode('utf-8')).hexdigest()
     main(region_names, usernames, user_secrets, region_secrets, device_dir)

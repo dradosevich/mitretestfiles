@@ -4,12 +4,14 @@ Description: Generates system wide secrets containing all potential regions
 Use: Once per ecosystem of devices
 """
 import json
+import hashlib
 from argparse import ArgumentParser
 
 
 def main(region_dict, file_name):
     try:
         secrets = open(file_name, "w")
+        print()
     except Exception as e:
         print("Unable to open secrets file: %s" % (e,))
         return 0
@@ -32,4 +34,11 @@ if __name__ == '__main__':
     region_list, outfile = get_args()
     print("generating system specific secrets")
     regions = {region: num for num, region in enumerate(region_list)}  # Create region IDs based on increasing integers
-    main(regions, outfile)
+    print(type(regions))
+    print(regions)
+    newreg = {}
+    for reg in regions:
+        newkey = hashlib.sha256(reg.encode('utf-8')).hexdigest()
+        newreg[newkey]=regions[reg]
+    print(newreg)
+    main(newreg, outfile)

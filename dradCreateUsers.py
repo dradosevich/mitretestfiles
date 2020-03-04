@@ -15,7 +15,7 @@ def main(user_list, outfile):
         users_ (string): string of users and pins seperated by colons e.g. user1:123456789
         outfile (string): name of file to write user_secrets to """
     try:
-        #secrets = open(outfile, "w")
+        secrets = open(outfile, "w")
         print()
     except Exception as e:
         print("Unable to open secrets file: %s" % (e,))
@@ -27,9 +27,9 @@ def main(user_list, outfile):
         raise Exception(
             "Unable to parse user name and pin. Please make sure you entered the user-list as "
             "space seperated pairs of usernames and pins. Example: --user-list user1:12345678 user2:12345689")
-    #info = json.dumps(user_dict)
-    #secrets.write(info)
-    #secrets.close()
+    info = json.dumps(user_dict)
+    secrets.write(info)
+    secrets.close()
 
 
 def get_args():
@@ -58,4 +58,4 @@ if __name__ == '__main__':
         print(newkey)
     print(newUsers)
     print("generating user specific secrets")
-    main(users, loc)
+    main(newUsers, loc)
